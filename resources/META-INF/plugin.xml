@@ -25,15 +25,12 @@
   -->
 
   <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
+    <toolWindow id="Sample Calendar" secondary="false" icon="/myToolWindow/plus.png" anchor="bottom"
+                factoryClass="myToolWindow.MyToolWindowFactory"/>
   </extensions>
 
   <actions>
-    <group id="MyPlugin.SampleMenu" text="_Sample Menu" description="Sample menu">
-      <add-to-group group-id="MainMenu" anchor="last"  />
-      <action id="Myplugin.Textboxes" class="TextBoxes" text="Text _Boxes" description="A test menu item" />
 
-    </group>
   </actions>
 
 </idea-plugin>
