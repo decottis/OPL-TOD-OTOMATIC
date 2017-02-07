@@ -25,7 +25,7 @@
   -->
 
   <extensions defaultExtensionNs="com.intellij">
-    <toolWindow id="Sample Calendar" secondary="false" icon="/myToolWindow/plus.png" anchor="bottom"
+    <toolWindow id="Tod-otomatic" secondary="false" icon="/myToolWindow/plus.png" anchor="bottom"
                 factoryClass="myToolWindow.MyToolWindowFactory"/>
   </extensions>
 
