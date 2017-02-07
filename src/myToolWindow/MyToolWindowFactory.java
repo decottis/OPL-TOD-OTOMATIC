@@ -1,5 +1,6 @@
 package myToolWindow;
 
+import Util.Todo;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.*;
 import com.intellij.ui.components.JBScrollPane;
@@ -16,7 +17,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,13 +40,55 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
     private JList list1;
     private JProgressBar progressBar1;
     private ToolWindow myToolWindow;
+    private List<File> listOfFiles;
+    private List<Todo> listOfTodo;
     private Tree filesInConnection;
 
 
     public MyToolWindowFactory() {
+        listOfFiles = new ArrayList<File>();
+        listOfTodo = new ArrayList<Todo>();
         $$$setupUI$$$();
     }
 
+
+    private void getAllFiles(File folder) {
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                getAllFiles(fileEntry);
+            } else {
+                listOfFiles.add(fileEntry);
+            }
+        }
+    }
+
+    public void getAllTag() {
+        for (int i = 0; i < listOfFiles.size(); i++) {
+            getTag(listOfFiles.get(i));
+        }
+    }
+
+    public void getTag(File file) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                if (line.toLowerCase().contains("//@tag")) {
+                    int index = line.toLowerCase().indexOf("//@tag");
+                    String todoReal = line.substring(index, line.length());
+                    String extension = file.getName().split("\\.")[file.getName().split("\\.").length - 1];
+                    String annotation = todoReal.substring(7, todoReal.indexOf(" "));
+                    listOfTodo.add(new Todo(todoReal, extension, annotation));
+                }
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     // Create the tool window content.
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
