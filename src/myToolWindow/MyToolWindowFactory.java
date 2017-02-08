@@ -55,6 +55,7 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
         fm = new FileManager();
         $$$setupUI$$$();
     }
+
     // Create the tool window content.
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         fm.getAllFiles(new File(project.getBasePath()));
@@ -84,6 +85,7 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
 
     public boolean createTree(DefaultMutableTreeNode node, String[] branch, int cpt, boolean last) {
         String[] tmp = Arrays.copyOfRange(branch, 0, cpt + 1);
+        if (cpt == branch.length) last = true;
         boolean exist = false;
         for (int i = 0; i < node.getChildCount(); i++) {
             DefaultMutableTreeNode tmpNode = (DefaultMutableTreeNode) node.getChildAt(i);
