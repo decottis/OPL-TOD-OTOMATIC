@@ -6,13 +6,13 @@ package Util;
 public class Todo {
     private String content;
     private String language;
-    private String annot;
+    private String[] annot;
 
-    public String getAnnot() {
+    public String[] getAnnot() {
         return annot;
     }
 
-    public void setAnnot(String annot) {
+    public void setAnnot(String[] annot) {
         this.annot = annot;
     }
 
@@ -33,7 +33,7 @@ public class Todo {
         this.language = language;
     }
 
-    public Todo(String content, String language,String annot) {
+    public Todo(String content, String language,String[] annot) {
         this.content = content;
         this.language = language;
         this.annot = annot;

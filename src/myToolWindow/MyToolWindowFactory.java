@@ -1,5 +1,6 @@
 package myToolWindow;
 
+import Util.FileManager;
 import Util.Todo;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.*;
@@ -18,7 +19,9 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -40,77 +43,23 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
     private JList list1;
     private JProgressBar progressBar1;
     private ToolWindow myToolWindow;
-    private List<File> listOfFiles;
-    private List<Todo> listOfTodo;
+    public static List<File> listOfFiles;
+    public static List<Todo> listOfTodo;
     private Tree filesInConnection;
+    private FileManager fm;
 
 
     public MyToolWindowFactory() {
         listOfFiles = new ArrayList<File>();
         listOfTodo = new ArrayList<Todo>();
+        fm = new FileManager();
         $$$setupUI$$$();
     }
-
-
-    private void getAllFiles(File folder) {
-        for (final File fileEntry : folder.listFiles()) {
-            if (fileEntry.isDirectory()) {
-                getAllFiles(fileEntry);
-            } else {
-                listOfFiles.add(fileEntry);
-            }
-        }
-    }
-
-    public void getAllTag() {
-        for (int i = 0; i < listOfFiles.size(); i++) {
-            getTag(listOfFiles.get(i));
-        }
-    }
-
-    public void getTag(File file) {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
-            while (line != null) {
-                if (line.toLowerCase().contains("//@tag")) {
-                    int index = line.toLowerCase().indexOf("//@tag");
-                    String todoReal = line.substring(index, line.length());
-                    String extension = file.getName().split("\\.")[file.getName().split("\\.").length - 1];
-                    String annotation = todoReal.substring(7, todoReal.indexOf(" "));
-                    listOfTodo.add(new Todo(todoReal, extension, annotation));
-                }
-                line = br.readLine();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Create the tool window content.
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-
-        /*DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
-
-        DefaultMutableTreeNode lv1 = new DefaultMutableTreeNode("lv1");
-        DefaultMutableTreeNode lv12 = new DefaultMutableTreeNode("lv12");
-        DefaultMutableTreeNode lv2 = new DefaultMutableTreeNode("lv2");
-
-        root.add(lv1);
-        lv1.add(lv12);
-        root.add(lv2);
-
-        lv2.add( new DefaultMutableTreeNode("lv21"));
-        lv2.add( new DefaultMutableTreeNode("lv22"));
-        lv2.add( new DefaultMutableTreeNode("lv23"));
-
-        DefaultTreeModel treeModel = new DefaultTreeModel(root);
-        tree1 = new Tree();
-        tree1.setModel(treeModel);
-        tree1.setRootVisible(true);*/
+        fm.getAllFiles(new File(project.getBasePath()));
+        fm.getAllTag();
+        $$$setupUI$$$();
 
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
 
@@ -125,22 +74,43 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
 
     }
 
+    public List<String[]> formatTreeOfTodo() {
+        List<String[]> listTodo = new ArrayList<String[]>();
+        for (int i = 0; i < listOfTodo.size(); i++) {
+            listTodo.add(listOfTodo.get(i).getAnnot());
+        }
+        return listTodo;
+    }
+
+    public boolean createTree(DefaultMutableTreeNode node, String[] branch, int cpt, boolean last) {
+        String[] tmp = Arrays.copyOfRange(branch, 0, cpt + 1);
+        boolean exist = false;
+        for (int i = 0; i < node.getChildCount(); i++) {
+            DefaultMutableTreeNode tmpNode = (DefaultMutableTreeNode) node.getChildAt(i);
+            if (tmpNode.getUserObject().equals(tmp[cpt]) && cpt != branch.length) {
+                cpt++;
+                last = createTree((DefaultMutableTreeNode) node.getChildAt(i), branch, cpt, last);
+            }
+        }
+        if (!last) {
+            DefaultMutableTreeNode newLeaf = new DefaultMutableTreeNode(tmp[cpt]);
+            node.add(newLeaf);
+            if (cpt != branch.length - 1) {
+                cpt++;
+                last = createTree((DefaultMutableTreeNode) node.getLastChild(), branch, cpt, last);
+            }
+        }
+        return true;
+
+    }
 
     private void createUIComponents() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
-
-        DefaultMutableTreeNode lv1 = new DefaultMutableTreeNode("lv1");
-        DefaultMutableTreeNode lv12 = new DefaultMutableTreeNode("lv12");
-        DefaultMutableTreeNode lv2 = new DefaultMutableTreeNode("lv2");
-
-        root.add(lv1);
-        lv1.add(lv12);
-        root.add(lv2);
-
-        lv2.add(new DefaultMutableTreeNode("lv21"));
-        lv2.add(new DefaultMutableTreeNode("lv22"));
-        lv2.add(new DefaultMutableTreeNode("lv23"));
-
+        List<String[]> todoFormated = formatTreeOfTodo();
+        List<DefaultMutableTreeNode> createdNode = new ArrayList<DefaultMutableTreeNode>();
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("tag");
+        for (int i = 0; i < todoFormated.size(); i++) {
+            createTree(root, todoFormated.get(i), 0, false);
+        }
         DefaultTreeModel treeModel = new DefaultTreeModel(root);
         tree1 = new Tree();
         tree1.setModel(treeModel);
