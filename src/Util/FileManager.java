@@ -36,7 +36,7 @@ public class FileManager {
                     String extension = file.getName().split("\\.")[file.getName().split("\\.").length - 1];
                     int indexTodoReal = todoReal.indexOf(" ") == -1 ? todoReal.length() : todoReal.indexOf(" ");
                     String[] annotation = todoReal.substring(7, indexTodoReal).split("\\.");
-                    MyToolWindowFactory.listOfTodo.add(new Todo(todoReal, extension, annotation));
+                    MyToolWindowFactory.getMyTree().getListOfTodo().add(new Todo(todoReal, extension, annotation));
                 }
                 line = br.readLine();
             }
