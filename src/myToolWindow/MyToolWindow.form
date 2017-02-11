@@ -18,6 +18,14 @@
           <background color="-2312"/>
         </properties>
       </component>
+      <component id="8d4d8" class="javax.swing.JButton" binding="button1" custom-create="true" default-binding="true">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Refresh"/>
+        </properties>
+      </component>
       <component id="9d3b8" class="javax.swing.JTable" binding="table1" custom-create="true" default-binding="true">
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -26,14 +34,7 @@
         </constraints>
         <properties>
           <autoCreateRowSorter value="true"/>
-        </properties>
-      </component>
-      <component id="8d4d8" class="javax.swing.JButton" binding="button1" default-binding="true">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Button"/>
+          <surrendersFocusOnKeystroke value="true"/>
         </properties>
       </component>
     </children>

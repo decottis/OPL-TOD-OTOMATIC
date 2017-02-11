@@ -61,7 +61,7 @@ public class MyTree {
 
     }
 
-    public JTree refreshTree(JTree tree){
+    public DefaultTreeModel refreshTree(JTree tree){
         List<String[]> todoFormated = formatTreeOfTodo();
         List<DefaultMutableTreeNode> createdNode = new ArrayList<DefaultMutableTreeNode>();
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("tag");
@@ -76,7 +76,7 @@ public class MyTree {
         this.myTree = tree;
         this.myTree.addTreeSelectionListener(createSelectionListener());
 
-        return tree;
+        return treeModel;
     }
 
     public List<Todo> getListOfTodo(){
