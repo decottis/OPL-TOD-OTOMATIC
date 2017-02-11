@@ -14,8 +14,11 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import org.jetbrains.annotations.NotNull;
-
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.JTableHeader;
@@ -56,6 +59,7 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
     private FileManager fm;
     private static MyTree myTree;
     public String test = "";
+    public Project project;
 
     //cheat
     public static String[] columnNames = {"Tag", "File", "line", "content"};
@@ -66,10 +70,23 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
         myTree = new MyTree(new MyTable());
         button1 = new JButton("refresh");
         $$$setupUI$$$();
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                listOfFiles.clear();
+                myTree.getListOfTodo().clear();
+                fm.getAllFiles(new File(project.getBasePath()));
+                fm.getAllTag();
+                tree1 = myTree.refreshTree(tree1);
+            }
+
+        });
+
     }
 
     // Create the tool window content.
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        this.project = project;
         fm.getAllFiles(new File(project.getBasePath()));
         fm.getAllTag();
 
@@ -127,6 +144,9 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
         final JScrollPane scrollPane1 = new JScrollPane();
         myToolWindowContent.add(scrollPane1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         table1.setAutoCreateRowSorter(true);
+        table1.setCellSelectionEnabled(false);
+        table1.setColumnSelectionAllowed(false);
+        table1.setRowSelectionAllowed(true);
         table1.setSurrendersFocusOnKeystroke(true);
         scrollPane1.setViewportView(table1);
         tree1.setBackground(new Color(-2312));

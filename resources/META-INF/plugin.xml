@@ -31,6 +31,9 @@
 
   <actions>
 
+    <action id="test" class="OpenFile" text="OpenFile">
+      <add-to-group group-id="FileOpenGroup" anchor="first"/>
+    </action>
   </actions>
 
 </idea-plugin>

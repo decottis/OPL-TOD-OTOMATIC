@@ -19,6 +19,9 @@
             <constraints/>
             <properties>
               <autoCreateRowSorter value="true"/>
+              <cellSelectionEnabled value="false"/>
+              <columnSelectionAllowed value="false"/>
+              <rowSelectionAllowed value="true"/>
               <surrendersFocusOnKeystroke value="true"/>
             </properties>
           </component>
