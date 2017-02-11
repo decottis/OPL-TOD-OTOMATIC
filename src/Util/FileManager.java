@@ -26,17 +26,22 @@ public class FileManager {
 
     public void getTag(File file) {
         try {
+            int cpt = 0;
             BufferedReader br = new BufferedReader(new FileReader(file));
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
             while (line != null) {
+                cpt++;
                 if (line.toLowerCase().contains("//@tag")) {
                     int index = line.toLowerCase().indexOf("//@tag");
                     String todoReal = line.substring(index, line.length());
-                    String extension = file.getName().split("\\.")[file.getName().split("\\.").length - 1];
+                    String content[] = todoReal.split(" ");
+                    String realContent = "";
+                    for(int i = 1; i<content.length; i++) realContent += content[i];
+                    String fileName = file.getName()   ;
                     int indexTodoReal = todoReal.indexOf(" ") == -1 ? todoReal.length() : todoReal.indexOf(" ");
                     String[] annotation = todoReal.substring(7, indexTodoReal).split("\\.");
-                    MyToolWindowFactory.getMyTree().getListOfTodo().add(new Todo(todoReal, extension, annotation));
+                    MyToolWindowFactory.getMyTree().getListOfTodo().add(new Todo(realContent, fileName, annotation, ""+cpt));
                 }
                 line = br.readLine();
             }

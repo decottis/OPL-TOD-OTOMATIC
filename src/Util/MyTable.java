@@ -15,9 +15,6 @@ import java.util.List;
 public class MyTable {
     public JTable tab;
     public Object[][] data;
-    public int cpt = 0;
-    public Object[][] data1 = {{"salut", "toi","Test"}, {"Hello", "you","Test"}};
-
 
     public MyTable(){
 
@@ -55,11 +52,11 @@ public class MyTable {
         if(pathCount == 1)
             return true;
 
-        if(pathCount > annot.length)
+        if(pathCount - 1 > annot.length)
             return false;
 
-        for(int i=0; i<pathCount; i++) {
-            if(!path.getPathComponent(pathCount - 1 - i).toString().equals(annot[i]))
+        for(int i=0; i<pathCount - 1; i++) {
+            if(!path.getPathComponent(i + 1).toString().equals(annot[i]))
                 return false;
         }
         return true;
@@ -69,9 +66,11 @@ public class MyTable {
         int cpt = 0;
         Object[][] data = new Object[l_todo.size()][Todo.NUMBER_OF_COLLUMN];
         for(Todo t : l_todo){
-            data[cpt][0] = t.getContent();
-            data[cpt][1] = t.getLanguage();
-            data[cpt][2] = t.getAnnot();
+            data[cpt][0] = t.annotToString();
+            data[cpt][1] = t.getFile();
+            data[cpt][2] = t.getLine();
+            data[cpt][3] = t.getContent();
+
             cpt++;
         }
         this.data = data;

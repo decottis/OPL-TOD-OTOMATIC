@@ -18,16 +18,15 @@ import java.util.List;
  */
 public class MyTree {
 
-    private JTree myTree;
+    public JTree myTree;
     private List<Todo> listOfTodo;
     public TreePath currentPath;
     public MyTable table;
     private MyToolWindowFactory factory;
 
-    public MyTree(MyTable table, MyToolWindowFactory fac){
+    public MyTree(MyTable table){
         listOfTodo = new ArrayList<Todo>();
         this.table = table;
-        this.factory = fac;
     }
 
     public List<String[]> formatTreeOfTodo() {
@@ -61,7 +60,7 @@ public class MyTree {
 
     }
 
-    public DefaultTreeModel refreshTree(JTree tree){
+    public JTree refreshTree(JTree tree){
         List<String[]> todoFormated = formatTreeOfTodo();
         List<DefaultMutableTreeNode> createdNode = new ArrayList<DefaultMutableTreeNode>();
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("tag");
@@ -76,7 +75,7 @@ public class MyTree {
         this.myTree = tree;
         this.myTree.addTreeSelectionListener(createSelectionListener());
 
-        return treeModel;
+        return tree;
     }
 
     public List<Todo> getListOfTodo(){
@@ -98,5 +97,9 @@ public class MyTree {
 
     public TreePath getTreePath(){
         return this.currentPath;
+    }
+
+    public void addFactory(MyToolWindowFactory fac){
+        this.factory = fac;
     }
 }

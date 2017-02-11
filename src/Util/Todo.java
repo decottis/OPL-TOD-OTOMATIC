@@ -4,10 +4,11 @@ package Util;
  * Created by David on 07/02/2017.
  */
 public class Todo {
-    public static int NUMBER_OF_COLLUMN  = 3;
+    public static int NUMBER_OF_COLLUMN  = 4;
     private String content;
-    private String language;
+    private String file;
     private String[] annot;
+    private String line;
 
     public String[] getAnnot() {
         return annot;
@@ -26,18 +27,38 @@ public class Todo {
         this.content = content;
     }
 
-    public String getLanguage() {
-        return language;
+    public String getFile() {
+        return file;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setFile(String file) {
+        this.file = file;
     }
 
-    public Todo(String content, String language,String[] annot) {
+    public String getLine() {
+        return line;
+    }
+
+    public void setLine(String line) {
+        this.file = line;
+    }
+
+    public Todo(String content, String file,String[] annot, String line) {
         this.content = content;
-        this.language = language;
+        this.file = file;
         this.annot = annot;
+        this.line = line;
+    }
+
+    public String annotToString(){
+        String s_annot = "";
+        for(int i = 0; i<annot.length; i++){
+            if(i < annot.length - 1)
+                s_annot += annot[i] + ".";
+            else
+                s_annot += annot[i];
+        }
+        return s_annot;
     }
 
 
