@@ -22,10 +22,12 @@ public class MyTree {
     private List<Todo> listOfTodo;
     public TreePath currentPath;
     public MyTable table;
+    private MyToolWindowFactory factory;
 
-    public MyTree(MyTable table){
+    public MyTree(MyTable table, MyToolWindowFactory fac){
         listOfTodo = new ArrayList<Todo>();
         this.table = table;
+        this.factory = fac;
     }
 
     public List<String[]> formatTreeOfTodo() {
@@ -89,6 +91,7 @@ public class MyTree {
                 System.out.println(currentPath);
                 List<Todo> l_todo = MyTable.getTodoByTag(myTree, listOfTodo);
                 table.convertListToObject(l_todo);
+                factory.createUIComponents();
             }
         };
     }

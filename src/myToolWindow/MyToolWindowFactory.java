@@ -54,14 +54,16 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
     private Tree filesInConnection;
     private FileManager fm;
     private static MyTree myTree;
+    public String test = "";
 
     //cheat
     public static String[] columnNames = {"First Name", "Last Name"};
+    public static Object[][] dataTab = {{"First Name", "Last Name"}, {"First Name", "Last Name"}};
 
     public MyToolWindowFactory() {
         listOfFiles = new ArrayList<File>();
         fm = new FileManager();
-        myTree = new MyTree(new MyTable());
+        myTree = new MyTree(new MyTable(), this);
 
     }
 
@@ -86,16 +88,12 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
     }
 
     public void valueChanged(TreeSelectionEvent e) {
-        /*myTree.currentPath = e.getPath();
-        System.out.println(myTree.currentPath);
-        List<Todo> l_todo = MyTable.getTodoByTag(myTree, myTree.getListOfTodo());
-        myTree.table.convertListToObject(l_todo);*/
     }
 
-    private void createUIComponents() {
+    public void createUIComponents() {
         //create my tree
         if (myTree == null)
-            myTree = new MyTree(new MyTable());
+            myTree = new MyTree(new MyTable(), this);
         if (tree1 != null)
             tree1 = myTree.refreshTree(tree1);
         if (table1 != null)

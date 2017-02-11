@@ -15,6 +15,8 @@ import java.util.List;
 public class MyTable {
     public JTable tab;
     public Object[][] data;
+    public int cpt = 0;
+    public Object[][] data1 = {{"salut", "toi"}, {"Hello", "you"}};
 
 
     public MyTable(){
@@ -22,6 +24,10 @@ public class MyTable {
     }
 
     public JTable refreshTable(Object[][] data, String[] columnName){
+        cpt++;
+        if(cpt == 3) {
+            data = data1;
+        }
         DefaultTableModel model = new DefaultTableModel(data, columnName);
         tab = new JTable( model )
         {
@@ -72,6 +78,5 @@ public class MyTable {
             cpt++;
         }
         this.data = data;
-        refreshTable(data, MyToolWindowFactory.columnNames);
     }
 }
