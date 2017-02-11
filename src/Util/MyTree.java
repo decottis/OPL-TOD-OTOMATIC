@@ -1,10 +1,14 @@
 package Util;
 
 import com.intellij.ui.treeStructure.Tree;
+import myToolWindow.MyToolWindowFactory;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,9 +20,12 @@ public class MyTree {
 
     private JTree myTree;
     private List<Todo> listOfTodo;
+    public TreePath currentPath;
+    public MyTable table;
 
-    public MyTree(){
+    public MyTree(MyTable table){
         listOfTodo = new ArrayList<Todo>();
+        this.table = table;
     }
 
     public List<String[]> formatTreeOfTodo() {
@@ -65,10 +72,28 @@ public class MyTree {
         tree.setRootVisible(true);
 
         this.myTree = tree;
+        this.myTree.addTreeSelectionListener(createSelectionListener());
+
         return tree;
     }
 
     public List<Todo> getListOfTodo(){
         return listOfTodo;
+    }
+
+    private TreeSelectionListener createSelectionListener() {
+        final MyTree myTree = this;
+        return new TreeSelectionListener() {
+            public void valueChanged(TreeSelectionEvent e) {
+                currentPath = e.getPath();
+                System.out.println(currentPath);
+                List<Todo> l_todo = MyTable.getTodoByTag(myTree, listOfTodo);
+                table.convertListToObject(l_todo);
+            }
+        };
+    }
+
+    public TreePath getTreePath(){
+        return this.currentPath;
     }
 }

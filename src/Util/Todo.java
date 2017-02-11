@@ -4,6 +4,7 @@ package Util;
  * Created by David on 07/02/2017.
  */
 public class Todo {
+    public static int NUMBER_OF_COLLUMN  = 3;
     private String content;
     private String language;
     private String[] annot;

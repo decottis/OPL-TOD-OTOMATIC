@@ -1,6 +1,7 @@
 package myToolWindow;
 
 import Util.FileManager;
+import Util.MyTable;
 import Util.MyTree;
 import Util.Todo;
 import com.intellij.openapi.project.Project;
@@ -54,11 +55,13 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
     private FileManager fm;
     private static MyTree myTree;
 
+    //cheat
+    public static String[] columnNames = {"First Name", "Last Name"};
 
     public MyToolWindowFactory() {
         listOfFiles = new ArrayList<File>();
         fm = new FileManager();
-        myTree = new MyTree();
+        myTree = new MyTree(new MyTable());
 
     }
 
@@ -69,6 +72,7 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
 
         // create my tree
         tree1 = myTree.refreshTree(tree1);
+        table1 = myTree.table.refreshTable(myTree.table.data, columnNames);
 
         $$$setupUI$$$();
 
@@ -81,23 +85,25 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
 
     }
 
-    public void valueChanged(TreeSelectionEvent arg0) {
-
+    public void valueChanged(TreeSelectionEvent e) {
+        /*myTree.currentPath = e.getPath();
+        System.out.println(myTree.currentPath);
+        List<Todo> l_todo = MyTable.getTodoByTag(myTree, myTree.getListOfTodo());
+        myTree.table.convertListToObject(l_todo);*/
     }
 
     private void createUIComponents() {
-        //file manager
-
         //create my tree
         if (myTree == null)
-            myTree = new MyTree();
+            myTree = new MyTree(new MyTable());
         if (tree1 != null)
             tree1 = myTree.refreshTree(tree1);
-        else
+        if (table1 != null)
+            table1 = myTree.table.refreshTable(myTree.table.data, columnNames);
+        else {
             tree1 = new Tree();
-
-        //create my table
-        table1 = new JBTable();
+            table1 = new JTable();
+        }
     }
 
     public static MyTree getMyTree() {
@@ -124,6 +130,7 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
         myToolWindowContent.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         tree1.setBackground(new Color(-2312));
         myToolWindowContent.add(tree1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(25, 25), null, 0, false));
+        table1.setAutoCreateRowSorter(true);
         myToolWindowContent.add(table1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         button1 = new JButton();
         button1.setText("Button");

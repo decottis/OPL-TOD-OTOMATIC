@@ -24,7 +24,9 @@
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <autoCreateRowSorter value="true"/>
+        </properties>
       </component>
       <component id="8d4d8" class="javax.swing.JButton" binding="button1" default-binding="true">
         <constraints>
