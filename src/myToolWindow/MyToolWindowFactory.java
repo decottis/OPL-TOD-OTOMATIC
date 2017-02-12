@@ -149,10 +149,13 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
         table1.setRowSelectionAllowed(true);
         table1.setSurrendersFocusOnKeystroke(true);
         scrollPane1.setViewportView(table1);
+        button1.setHorizontalAlignment(2);
+        button1.setIcon(new ImageIcon(getClass().getResource("/myToolWindow/refresh.png")));
+        button1.setText("");
+        myToolWindowContent.add(button1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         tree1.setBackground(new Color(-2312));
+        tree1.setInheritsPopupMenu(true);
         myToolWindowContent.add(tree1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(25, 25), null, 0, false));
-        button1.setText("Refresh");
-        myToolWindowContent.add(button1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

@@ -9,6 +9,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +74,7 @@ public class MyTree {
         tree.setRootVisible(true);
 
         this.myTree = tree;
+        this.myTree.setRootVisible(true);
         this.myTree.addTreeSelectionListener(createSelectionListener());
 
         return tree;
