@@ -44,9 +44,11 @@ public class MyTree {
         if (cpt == branch.length) last = true;
         for (int i = 0; i < node.getChildCount(); i++) {
             DefaultMutableTreeNode tmpNode = (DefaultMutableTreeNode) node.getChildAt(i);
-            if (tmpNode.getUserObject().equals(tmp[cpt]) && cpt != branch.length) {
-                cpt++;
-                last = createTree((DefaultMutableTreeNode) node.getChildAt(i), branch, cpt, last);
+            if(cpt< tmp.length) {
+                if (tmpNode.getUserObject().equals(tmp[cpt]) && cpt != branch.length) {
+                    cpt++;
+                    last = createTree((DefaultMutableTreeNode) node.getChildAt(i), branch, cpt, last);
+                }
             }
         }
         if (!last) {
