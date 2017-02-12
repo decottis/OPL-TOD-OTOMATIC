@@ -9,6 +9,5 @@ public class OpenFile extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         // TODO: insert action logic here
-        
     }
 }

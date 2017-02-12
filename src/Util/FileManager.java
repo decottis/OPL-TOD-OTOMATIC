@@ -37,7 +37,7 @@ public class FileManager {
                     String todoReal = line.substring(index, line.length());
                     String content[] = todoReal.split(" ");
                     String realContent = "";
-                    for(int i = 1; i<content.length; i++) realContent += content[i];
+                    for(int i = 1; i<content.length; i++) realContent += content[i]+" ";
                     String fileName = file.getName()   ;
                     int indexTodoReal = todoReal.indexOf(" ") == -1 ? todoReal.length() : todoReal.indexOf(" ");
                     String[] annotation = todoReal.substring(7, indexTodoReal).split("\\.");

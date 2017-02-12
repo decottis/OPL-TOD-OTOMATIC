@@ -21,6 +21,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -33,12 +34,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Alexey.Chursin
- * Date: Aug 25, 2010
- * Time: 2:09:00 PM
- */
 public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionListener {
 
     // UI elements
@@ -77,7 +72,8 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
                 myTree.getListOfTodo().clear();
                 fm.getAllFiles(new File(project.getBasePath()));
                 fm.getAllTag();
-                tree1 = myTree.refreshTree(tree1);
+                myTree.refreshTree(tree1);
+                tree1.setModel(myTree.getTreeModel());
             }
 
         });
@@ -87,6 +83,8 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
     // Create the tool window content.
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         this.project = project;
+        listOfFiles.clear();
+        myTree.getListOfTodo().clear();
         fm.getAllFiles(new File(project.getBasePath()));
         fm.getAllTag();
 
@@ -142,7 +140,8 @@ public class MyToolWindowFactory implements ToolWindowFactory, TreeSelectionList
         myToolWindowContent = new JPanel();
         myToolWindowContent.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         final JScrollPane scrollPane1 = new JScrollPane();
-        myToolWindowContent.add(scrollPane1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        scrollPane1.setAutoscrolls(false);
+        myToolWindowContent.add(scrollPane1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(2, -1), new Dimension(2, -1), null, 0, false));
         table1.setAutoCreateRowSorter(true);
         table1.setCellSelectionEnabled(false);
         table1.setColumnSelectionAllowed(false);

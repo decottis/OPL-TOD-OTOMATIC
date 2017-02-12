@@ -24,6 +24,7 @@ public class MyTree {
     public TreePath currentPath;
     public MyTable table;
     private MyToolWindowFactory factory;
+    private DefaultTreeModel treeModel;
 
     public MyTree(MyTable table){
         listOfTodo = new ArrayList<Todo>();
@@ -41,7 +42,6 @@ public class MyTree {
     public boolean createTree(DefaultMutableTreeNode node, String[] branch, int cpt, boolean last) {
         String[] tmp = Arrays.copyOfRange(branch, 0, cpt + 1);
         if (cpt == branch.length) last = true;
-        boolean exist = false;
         for (int i = 0; i < node.getChildCount(); i++) {
             DefaultMutableTreeNode tmpNode = (DefaultMutableTreeNode) node.getChildAt(i);
             if (tmpNode.getUserObject().equals(tmp[cpt]) && cpt != branch.length) {
@@ -69,6 +69,7 @@ public class MyTree {
             createTree(root, todoFormated.get(i), 0, false);
         }
         DefaultTreeModel treeModel = new DefaultTreeModel(root);
+        this.treeModel = treeModel;
         tree = new Tree();
         tree.setModel(treeModel);
         tree.setRootVisible(true);
@@ -79,7 +80,9 @@ public class MyTree {
 
         return tree;
     }
-
+    public DefaultTreeModel getTreeModel() {
+        return this.treeModel;
+    }
     public List<Todo> getListOfTodo(){
         return listOfTodo;
     }

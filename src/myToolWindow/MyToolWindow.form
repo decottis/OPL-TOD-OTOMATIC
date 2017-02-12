@@ -10,9 +10,14 @@
     <children>
       <scrollpane id="d415d">
         <constraints>
-          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="2" height="-1"/>
+            <preferred-size width="2" height="-1"/>
+          </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <autoscrolls value="false"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="9d3b8" class="javax.swing.JTable" binding="table1" custom-create="true" default-binding="true">
